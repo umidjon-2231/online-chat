@@ -1,0 +1,16 @@
+server:
+  port: 8083
+spring:
+  sql:
+    init:
+      mode: ALWAYS
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: 911368169umid
+    url: jdbc:postgresql://localhost:5432/online_chat
+debug: true
