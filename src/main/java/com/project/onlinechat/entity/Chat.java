@@ -19,13 +19,17 @@ public class Chat {
     private Long id;
     @Column(nullable = false)
     private String title;
-    @ManyToOne
+    @ManyToOne()
+    @JoinColumn(nullable = false)
     private User owner;
-    private LocalDateTime created;
-    private boolean active;
+    @Column(nullable = false)
+    @Builder.Default
+    private LocalDateTime created=LocalDateTime.now();
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean active=true;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Member> members;
-
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private Attachment photo;
 }
