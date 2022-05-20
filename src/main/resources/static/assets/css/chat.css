@@ -1,0 +1,55 @@
+:root{
+    --vertical-nav-border-color: black
+}
+body{
+    width: 100vw;
+    height: 100vh;
+    background-color: #f1f1f1;
+}
+.main{
+    display: flex;
+}
+.left{
+    height: 100vh;
+    width: calc(35vw - 70px);
+    border-right: 1px solid black;
+}
+.right{
+    height: 100vh;
+    width: 65vw;
+    padding: 20px;
+}
+.vertical-nav{
+    width: 70px;
+    border-right: 1px solid var(--vertical-nav-border-color);
+}
+.search{
+    background-color: #f1f1f1;
+}
+.search:focus{
+    background-color: #f1f1f1;
+}
+.chat-element{
+    display: flow;
+    cursor: pointer;
+    height: 70px;
+}
+.chat-element:hover{
+    background-color: rgba(0, 0, 0, 0.16);;
+}
+.burger{
+    width: 100%;
+    padding: 5px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+}
+.burger .item{
+    background-color: black;
+    height: 3px;
+    width: 50%;
+    margin-top: 5px;
+}

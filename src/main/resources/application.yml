@@ -1,6 +1,12 @@
 server:
   port: 8083
 spring:
+#  devtools:
+#    restart:
+#      enabled: true
+#      exclude: META-INF/
+#  thymeleaf:
+#    cache: false
   sql:
     init:
       mode: ALWAYS

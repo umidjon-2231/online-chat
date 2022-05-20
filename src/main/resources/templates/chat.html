@@ -3,18 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Chat</title>
-    <link rel="stylesheet" href="/assets/bootstrap.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/css/chat.css">
 </head>
 <body>
-<div class="d-flex">
-    <div class="w-25">
-        <div th:each="chat: ${chats}" class="border w-100 p-3" style="height: 50px">
-            <h3 th:text="${chat.title}"></h3>
+<div class="main">
+    <div class="vertical-nav">
+        <div class="burger">
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
         </div>
     </div>
-    <div class="w-75 px-3">
+    <div class="left">
+        <div class="p-2">
+            <input type="search" autocomplete="off" placeholder="Search" name="search" id="search" class="search form-control">
+        </div>
+        <div th:each="chat: ${chats}" class="chat-element border w-100 p-3">
+            <b th:text="${chat.title}"></b>
+            <br/>
+            <p th:text="${chat.lastMessage}"></p>
+        </div>
+    </div>
+    <div class="right">
         <h1>Nothing to show</h1>
     </div>
 </div>
+
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/popper.js"></script>
+<script src="/assets/js/bootstrap.js"></script>
+<script src="/assets/js/sockjs.js"></script>
+<script  src="/assets/js/stomp.js"></script>
+<script src="/assets/js/chat.js"></script>
 </body>
 </html>

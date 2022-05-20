@@ -1,6 +1,7 @@
 package com.project.onlinechat.controller;
 
 import com.project.onlinechat.entity.Chat;
+import com.project.onlinechat.entity.Message;
 import com.project.onlinechat.entity.User;
 import com.project.onlinechat.repository.ChatRepository;
 import com.project.onlinechat.repository.UserRepository;
@@ -29,9 +30,10 @@ public class ChatController {
     public String getAllChats(HttpServletRequest req, HttpServletResponse res, Model model){
         User user = authService.getByToken(req);
         if(user==null){
-            return "redirect:/login";
+            return "redirect:/auth/login";
         }
         List<Chat> chats = chatRepository.findAllById(chatRepository.findByMember(user.getId()));
+        List<Message> lastMessages;
         model.addAttribute("chats", chats);
         model.addAttribute("user", user);
         return "chat";
