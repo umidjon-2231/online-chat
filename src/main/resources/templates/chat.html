@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+    <link rel="stylesheet" href="/assets/bootstrap.css">
+</head>
+<body>
+<div class="d-flex">
+    <div class="w-25">
+        <div th:each="chat: ${chats}" class="border w-100 p-3" style="height: 50px">
+            <h3 th:text="${chat.title}"></h3>
+        </div>
+    </div>
+    <div class="w-75 px-3">
+        <h1>Nothing to show</h1>
+    </div>
+</div>
+</body>
+</html>
