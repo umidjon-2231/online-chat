@@ -3,6 +3,7 @@ package com.project.onlinechat.component;
 import com.project.onlinechat.entity.Chat;
 import com.project.onlinechat.entity.Member;
 import com.project.onlinechat.entity.User;
+import com.project.onlinechat.entity.enums.ChatType;
 import com.project.onlinechat.entity.enums.Permission;
 import com.project.onlinechat.entity.enums.Role;
 import com.project.onlinechat.entity.enums.Status;
@@ -34,7 +35,8 @@ public class DataLoader implements CommandLineRunner {
                     .password(passwordEncoder.encode("12345678"))
                     .build());
             chatRepository.save(Chat.builder()
-                            .title("Local chat")
+                            .title("PDP chat")
+                            .type(ChatType.PUBLIC)
                             .members(List.of(Member.builder()
                                             .user(owner)
                                             .permissions(List.of(Permission.SEND_MESSAGE))

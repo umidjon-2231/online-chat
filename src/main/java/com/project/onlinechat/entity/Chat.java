@@ -1,6 +1,9 @@
 package com.project.onlinechat.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.onlinechat.entity.enums.ChatType;
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Where(clause = "active=true")
 public class Chat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,9 +31,12 @@ public class Chat {
     private LocalDateTime created=LocalDateTime.now();
     @Column(nullable = false)
     @Builder.Default
+    @JsonIgnore
     private boolean active=true;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     private List<Member> members;
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private Attachment photo;
+    @Column(nullable = false)
+    private ChatType type;
 }

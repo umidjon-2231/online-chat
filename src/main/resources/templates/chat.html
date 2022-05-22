@@ -7,7 +7,12 @@
     <link rel="stylesheet" href="/assets/css/chat.css">
 </head>
 <body>
-<div class="main">
+<div id="loader" class="w-100 h-100 d-flex justify-content-center align-items-center">
+    <span class="spinner-border text-primary">
+
+    </span>
+</div>
+<div class="main" hidden>
     <div class="vertical-nav">
         <div class="burger">
             <div class="item"></div>
@@ -15,18 +20,20 @@
             <div class="item"></div>
         </div>
     </div>
-    <div class="left">
+    <div id="left">
         <div class="p-2">
             <input type="search" autocomplete="off" placeholder="Search" name="search" id="search" class="search form-control">
         </div>
-        <div th:each="chat: ${chats}" class="chat-element border w-100 p-3">
+        <div th:onclick="'openChat('+${chat.id}+')'" th:each="chat, i: ${chats}" class="chat-element border w-100 p-3">
             <b th:text="${chat.title}"></b>
             <br/>
-            <p th:text="${chat.lastMessage}"></p>
+            <p th:text="${lastMessages.size()>i.index+1?lastMessages.get(i.index).text:''}"></p>
         </div>
     </div>
-    <div class="right">
-        <h1>Nothing to show</h1>
+    <div id="right">
+        <div class="d-flex justify-content-center align-items-center h-100">
+            <h5>Nothing to show...</h5>
+        </div>
     </div>
 </div>
 

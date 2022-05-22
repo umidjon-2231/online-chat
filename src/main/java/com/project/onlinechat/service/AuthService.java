@@ -1,22 +1,22 @@
 package com.project.onlinechat.service;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.project.onlinechat.dto.ApiResponse;
 import com.project.onlinechat.dto.LoginDto;
+import com.project.onlinechat.dto.Update;
 import com.project.onlinechat.entity.Chat;
 import com.project.onlinechat.entity.Member;
+import com.project.onlinechat.entity.Message;
 import com.project.onlinechat.entity.User;
-import com.project.onlinechat.entity.enums.Permission;
-import com.project.onlinechat.entity.enums.Role;
-import com.project.onlinechat.entity.enums.Status;
+import com.project.onlinechat.entity.enums.*;
 import com.project.onlinechat.repository.ChatRepository;
+import com.project.onlinechat.repository.MessageRepository;
 import com.project.onlinechat.repository.UserRepository;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.description.method.MethodDescription;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +37,7 @@ public class AuthService {
     final UserRepository userRepository;
     final PasswordEncoder passwordEncoder;
     final ChatRepository chatRepository;
+    final MessageRepository messageRepository;
 
     @Value("${auth.token.secret}")
     private String secretKey;
@@ -65,11 +66,24 @@ public class AuthService {
                 .status(Status.ONLINE)
                 .build());
         Optional<Chat> optionalChat = chatRepository.findById(1L);
-        optionalChat.ifPresent(chat -> chat.getMembers().add(Member.builder()
-                .role(Role.MEMBER)
-                .user(save)
-                .permissions(List.of(Permission.SEND_MESSAGE))
-                .build()));
+
+        if (optionalChat.isPresent()) {
+            Chat chat = optionalChat.get();
+            Member member = Member.builder()
+                    .role(Role.MEMBER)
+                    .user(save)
+                    .permissions(List.of(Permission.SEND_MESSAGE))
+                    .build();
+            chat.getMembers().add(member);
+            Message message = Message.builder()
+                    .type(MessageType.JOINED)
+                    .text(save.getUsername() + " is joined to chat")
+                    .from(save)
+                    .chat(chat)
+                    .build();
+            messageRepository.save(message);
+        }
+
         return ApiResponse.<User>builder()
                 .success(true)
                 .data(save)
@@ -114,22 +128,23 @@ public class AuthService {
         return builder.compact();
     }
 
-    public User getByToken(HttpServletRequest req){
+    public User getUserByRequest(HttpServletRequest req){
         Cookie[] cookies = req.getCookies();
         if(cookies==null){
             return null;
         }
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(cookieName)) {
-                Claims body = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(cookie.getValue()).getBody();
-                Optional<User> optionalUser = userRepository.findById(Long.valueOf(body.getId()));
-                if(optionalUser.isEmpty()){
-                    return null;
-                }
-                return optionalUser.get();
+                return getUserByToken(cookie.getValue());
             }
         }
         return null;
+    }
+
+    public User getUserByToken(String token){
+        Claims body = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
+        Optional<User> optionalUser = userRepository.findById(Long.valueOf(body.getId()));
+        return optionalUser.orElse(null);
     }
 
     public Key getSecret(){

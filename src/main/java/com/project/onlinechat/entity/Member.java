@@ -5,6 +5,7 @@ import com.project.onlinechat.entity.enums.Role;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder
@@ -22,8 +23,12 @@ public class Member {
     @ManyToOne
     private User user;
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Permission> permissions;
+    @Column(nullable = false)
+    @Builder.Default
+    private LocalDateTime lastView=LocalDateTime.now();
 }

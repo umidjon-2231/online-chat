@@ -12,8 +12,12 @@
     <hr/>
     <div class="row mx-0 my-3">
         <div class="col-4 offset-4">
-            <form id="register" >
-                <div id="error-div"></div>
+            <form action="/auth/register" method="post" id="register" >
+                <div id="error-div" th:if="${error!=null}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong id="error-message" th:text="${error}"></strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                </div>
                 <label for="username">Username</label>
                 <input placeholder="Username" type="text" id="username" name="username" class="form-control">
                 <label for="email" class="mt-3">Email</label>
@@ -37,69 +41,5 @@
 <script src="/assets/js/jquery.js"></script>
 <script src="/assets/js/popper.js"></script>
 <script src="/assets/js/bootstrap.js"></script>
-<script src="/assets/js/sockjs.js"></script>
-<script  src="/assets/js/stomp.js"></script>
-
-<script>
-    let stompClient = null;
-    let error="<div id=\"error-div\" class=\"alert alert-warning alert-dismissible fade show\" role=\"alert\">\n" +
-        "                    <strong id=\"error-message\"></strong>\n" +
-        "                    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n" +
-        "                        <span aria-hidden=\"true\">&times;</span>\n" +
-        "                    </button>\n" +
-        "                </div>"
-    function parseError(msg){
-       document.querySelector("#error-div").innerHTML=error;
-       document.querySelector("#error-message").textContent=msg
-    }
-
-    function connect() {
-        let socket = new SockJS('/ws');
-        stompClient = Stomp.over(socket);
-        stompClient.connect({}, ()=>{
-            //on connect
-            stompClient.subscribe("/topic/auth", (payload)=>{
-                let res=JSON.parse(payload.body)
-                if (res.success) {
-                    location.href="/auth/login"
-                }else {
-                    parseError(res.message)
-                }
-            })
-        }, (e)=>{
-            console.log(e)
-        })
-    }
-
-    $(document).ready(()=>{
-        connect()
-        $('#register').submit(function (e){
-            e.preventDefault()
-            let username=document.querySelector('#username').value,
-                email=document.querySelector('#email').value,
-                password=document.querySelector('#password').value,
-                repeatPassword=document.querySelector('#repeat-password').value
-
-            if(password.length<8){
-                parseError("Password length must be longer than 8")
-                return false
-            }
-            if(password!==repeatPassword){
-                parseError("Passwords not equals")
-                return false;
-            }
-            stompClient.send("/app/chat.addUser",
-                {},
-                JSON.stringify({
-                    username,
-                    email,
-                    password
-                })
-            )
-            return false
-        })
-    })
-
-</script>
 </body>
 </html>

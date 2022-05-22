@@ -14,7 +14,7 @@ public class HomeController {
     final AuthService authService;
     @GetMapping
     public String homaPage(HttpServletRequest req){
-        User user = authService.getByToken(req);
+        User user = authService.getUserByRequest(req);
         if(user==null){
             return "redirect:/auth/login";
         }
