@@ -17,8 +17,12 @@ public class HibernateInsertListener implements PostInsertEventListener {
     final SimpMessageSendingOperations operations;
     @Override
     public void onPostInsert(PostInsertEvent postInsertEvent) {
+        System.out.println(postInsertEvent);
         if (postInsertEvent.getEntity() instanceof Message message) {
+            System.out.println(message);
+            System.out.println(message.getChat().getMembers());
             for (Member member : message.getChat().getMembers()) {
+                System.out.println(member);
                 operations.convertAndSend("/topic/update/"+member.getUser().getId(), Update.builder()
                                 .data(message)
                                 .user(member.getUser())
