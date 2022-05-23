@@ -70,6 +70,10 @@ function getCookie(cname) {
 
 function sendMessage() {
     let input=document.querySelector("#message"), text=input.value
+    if(text.length===0){
+        alert("Message length must be large then 0")
+        return
+    }
     stompClient.send("/app/chat.sendMessage", {}, JSON.stringify({
         from: user,
         text,
@@ -83,7 +87,7 @@ async function connect() {
     let socket = new SockJS('/ws');
 
     stompClient = Stomp.over(socket);
-    // stompClient.debug=false
+    stompClient.debug=false
     await stompClient.connect({}, async ()=>{
 
         let request=await fetch("/auth/main", {
