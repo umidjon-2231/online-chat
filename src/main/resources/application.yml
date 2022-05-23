@@ -17,11 +17,11 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
 #    username: postgres
-    username: ejirkhux
+    username: zxdlovpimthvyr
 #    password: 911368169umid
-    password: 3_7R1NYd0VZ6qQ5-KHAPvlmPszKNirep
+    password: 12b64b6dcfe6476ecf744c3791022ec1782f6df955e527d5cbb8ae1422e9f5fd
 #    url: jdbc:postgresql://localhost:5432/online_chat
-    url: postgres://ejirkhux:3_7R1NYd0VZ6qQ5-KHAPvlmPszKNirep@rosie.db.elephantsql.com/ejirkhux
+    url: postgres://zxdlovpimthvyr:12b64b6dcfe6476ecf744c3791022ec1782f6df955e527d5cbb8ae1422e9f5fd@ec2-63-35-156-160.eu-west-1.compute.amazonaws.com:5432/dcqk64p0sf2dcl
 debug: true
 auth:
   token:
