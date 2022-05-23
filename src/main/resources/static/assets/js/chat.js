@@ -3,15 +3,22 @@ let stompClient, user, activeChat=null;
 function parseMessage(message) {
     if(message.type==="TEXT"){
         return `
-                    <div class="my-3 d-flex message-${message.from.id===user.id?'my':'from'}">
-                        <p class="message m-0 ">${message.text}</p>
-                        <span class="time">${message.time.substring(message.time.indexOf("T")+1, message.time.indexOf("T")+6)}</span>
+                <div class="my-3 message-${message.from.id===user.id?'my':'from'}">
+                    <div class="message rounded-lg">
+                        <div class="from">${message.from.username}</div>
+                        <p class="m-0 ">${message.text}</p>
+                        <div class="time">${message.time.substring(message.time.indexOf("T")+1, message.time.indexOf("T")+6)}</div>
                     </div>
+                    
+                </div>
                 `
     }else if(message.type==="JOINED"){
         return `
-                <div class="my-3 d-flex message-joined">
-                    <p class="message m-0 ">${message.text}</p>
+                <div class="my-3 message-joined">
+                    <div class="message rounded-lg">
+                        <p class="m-0 ">${message.text}</p>
+                    </div>
+                    
                 </div>
                 `
     }
@@ -100,9 +107,11 @@ async function connect() {
             document.querySelector("#right").innerHTML=`
                 <div>
                     <nav class="chat-header">
-                        <b>${activeChat.title}</b>
-                        <br/>
-                        <p>${activeChat.members.length} members</p>
+                        <div class="chat-header-title">
+                            <b>${activeChat.title}</b>
+                            <br/>
+                            <p>${activeChat.members.length} members</p>
+                        </div>
                     </nav>
                     <main class="chat-body" id="chat-body">
                         ${messages}

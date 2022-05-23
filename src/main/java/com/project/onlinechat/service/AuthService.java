@@ -47,6 +47,11 @@ public class AuthService {
     private String cookieName;
 
     public ApiResponse<User> register(LoginDto dto) {
+        if(!dto.getRepeatPassword().equals(dto.getPassword())){
+            return ApiResponse.<User>builder()
+                    .message("Passwords are not equals")
+                    .build();
+        }
         Optional<User> byEmail = userRepository.findByEmail(dto.getEmail());
         if(byEmail.isPresent()){
             return ApiResponse.<User>builder()

@@ -29,6 +29,7 @@ public class HttpHandshakeInterceptor implements HandshakeInterceptor {
         if (request instanceof ServletServerHttpRequest servletRequest) {
             HttpSession session = servletRequest.getServletRequest().getSession();
             attributes.put("sessionId", session.getId());
+            attributes.put("user-agent", request.getHeaders().get("user-agent"));
             User userByRequest = authService.getUserByRequest(servletRequest.getServletRequest());
             if(userByRequest==null){
                 return true;

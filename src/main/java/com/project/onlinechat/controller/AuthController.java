@@ -45,7 +45,6 @@ public class AuthController {
     public String addUser(@ModelAttribute LoginDto dto, Model model) {
         ApiResponse<User> apiResponse = authService.register(dto);
         if(apiResponse.isSuccess()){
-
             return "redirect:/auth/login";
         }
         model.addAttribute("error", apiResponse.getMessage());

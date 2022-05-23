@@ -29,6 +29,9 @@
             <br/>
             <p th:text="${lastMessages.size()>i.index+1?lastMessages.get(i.index).text:''}"></p>
         </div>
+        <div class="text-center mt-3" th:if="${chats==null || chats.isEmpty()}">
+            <h5>You are haven't got any chats</h5>
+        </div>
     </div>
     <div id="right">
         <div class="d-flex justify-content-center align-items-center h-100">

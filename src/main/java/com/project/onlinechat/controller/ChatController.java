@@ -59,8 +59,6 @@ public class ChatController {
         return "chat";
     }
 
-
-
     @MessageMapping("/chat.open")
     public void getChat(SimpMessageHeaderAccessor headerAccessor, @Payload Long id){
         if(headerAccessor.getSessionAttributes()!=null){
@@ -80,9 +78,10 @@ public class ChatController {
         }
     }
 
-
     @MessageMapping("/chat.sendMessage")
-    public void sendMessage(@Payload Message confirm) {
+    public void sendMessage(@Payload Message confirm, SimpMessageHeaderAccessor headerAccessor) {
+        System.err.println(headerAccessor.getSessionAttributes().get("user-agent")+", "
+                + headerAccessor.getSessionAttributes().get("username")+": "+confirm.getText());
         messageRepository.save(confirm);
     }
 
