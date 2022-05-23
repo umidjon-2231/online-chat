@@ -15,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@ToString
 @Where(clause = "active=true")
 public class Chat {
     @Id

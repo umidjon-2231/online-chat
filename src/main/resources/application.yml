@@ -9,11 +9,13 @@ spring:
 #    cache: false
   sql:
     init:
-      mode: ALWAYS
+#      mode: ALWAYS
+      mode: NEVER
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create
+#      ddl-auto: create
+      ddl-auto: update
   datasource:
     driver-class-name: org.postgresql.Driver
 #    username: postgres

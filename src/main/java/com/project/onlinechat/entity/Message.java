@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@ToString
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

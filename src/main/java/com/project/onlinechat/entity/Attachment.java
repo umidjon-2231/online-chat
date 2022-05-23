@@ -1,5 +1,6 @@
 package com.project.onlinechat.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,5 +19,6 @@ public class Attachment {
 
     private String name, type;
     private Long size;
+    @JsonIgnore
     private byte[] bytes;
 }
